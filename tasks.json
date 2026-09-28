@@ -1,0 +1,114 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "process",
+            "label": "west configure",
+            "command": "cmd",
+            "args": [
+                "/d",
+                "/c",
+                "start",
+                "app gdbserver",
+                "powershell",
+                "-NoExit",
+                "-Command",
+                ". 'C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/.venv/Scripts/Activate.ps1'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "build app",
+            "command": "C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/.venv/Scripts/Activate.ps1;cd C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/;west build -d ./build_app",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "build bootloader",
+            "command": "C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/.venv/Scripts/Activate.ps1;cd C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/;west build -d ./build_boot"
+        },
+        {
+            "type": "shell",
+            "label": "flash app",
+            "command": "C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/.venv/Scripts/Activate.ps1;cd C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/;west flash -d ./build_app"
+        },
+        {
+            "type": "shell",
+            "label": "flash bootloader",
+            "command": "C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/.venv/Scripts/Activate.ps1;cd C:/Users/leejunggyun/Desktop/study/zephyr_study/zephyrproject/;west flash -d ./build_boot"
+        },
+        {
+            "type": "process",
+            "label": "start gdbserver with reset bootloader",
+            "command": "cmd",
+            "args": [
+                "/d",
+                "/c",
+                "start",
+                "boot gdbserver",
+                "powershell",
+                "-Command",
+                "C:/ST/STM32CubeCLT_1.22.0/STLink-gdb-server/bin/ST-LINK_gdbserver.EXE --stm32cubeprogrammer-path 'C:/ST/STM32CubeCLT_1.22.0/STM32CubeProgrammer/bin' --port-number 61234 --apid 0 --halt --swd --initialize-reset --shared --frequency 200"
+            ],
+            "dependsOn": [
+                "build bootloader"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "process",
+            "label": "start gdbserver no reset bootloader",
+            "command": "cmd",
+            "args": [
+                "/d",
+                "/c",
+                "start",
+                "boot gdbserver",
+                "powershell",
+                "-Command",
+                "C:/ST/STM32CubeCLT_1.22.0/STLink-gdb-server/bin/ST-LINK_gdbserver.EXE --stm32cubeprogrammer-path 'C:/ST/STM32CubeCLT_1.22.0/STM32CubeProgrammer/bin' --port-number 61234 --apid 0 --swd -g --shared --frequency 200"
+            ],
+            "dependsOn": [
+                "build bootloader"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "process",
+            "label": "start gdbserver with reset app",
+            "command": "cmd",
+            "args": [
+                "/d",
+                "/c",
+                "start",
+                "boot gdbserver",
+                "powershell",
+                "-Command",
+                "C:/ST/STM32CubeCLT_1.22.0/STLink-gdb-server/bin/ST-LINK_gdbserver.EXE --stm32cubeprogrammer-path 'C:/ST/STM32CubeCLT_1.22.0/STM32CubeProgrammer/bin' --port-number 61234 --apid 0 --halt --swd --initialize-reset --shared --frequency 200"
+            ],
+            "dependsOn": [
+                "build app"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "type": "process",
+            "label": "start gdbserver no reset app",
+            "command": "cmd",
+            "args": [
+                "/d",
+                "/c",
+                "start",
+                "boot gdbserver",
+                "powershell",
+                "-Command",
+                "C:/ST/STM32CubeCLT_1.22.0/STLink-gdb-server/bin/ST-LINK_gdbserver.EXE --stm32cubeprogrammer-path 'C:/ST/STM32CubeCLT_1.22.0/STM32CubeProgrammer/bin' --port-number 61234 --apid 0 --swd -g --shared --frequency 200"
+            ],
+            "dependsOn": [
+                "build app"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
